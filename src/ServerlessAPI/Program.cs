@@ -24,7 +24,6 @@ string region = Environment.GetEnvironmentVariable("AWS_REGION") ?? RegionEndpoi
 builder.Services
         .AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(RegionEndpoint.GetBySystemName(region)))
         .AddScoped<IDynamoDBContext, DynamoDBContext>()
-        .AddScoped<IBookRepository, BookRepository>()
         .AddScoped<IProductRepository, ProductRepository>()
         .AddScoped<IOrderRepository, OrderRepository>()
         .AddScoped<IOrderItemRepository, OrderItemRepository>();
