@@ -18,13 +18,10 @@ Resources:
       Runtime: dotnet8
       MemorySize: 256
       Role: arn:aws:iam::730335663858:role/LabRole
-      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
-        Variables:
-          SAMPLE_TABLE: !Ref SampleTable
       Policies:
         # Give Create/Read/Update/Delete Permissions to the SampleTable
         - DynamoDBCrudPolicy:
-            TableName: !Ref SampleTable
+            TableName: !Ref OrderTable
         - DynamoDBCrudPolicy:
             TableName: !Ref ProductTable
       Events:
@@ -40,18 +37,6 @@ Resources:
           Properties:
             Path: /
             Method: ANY
-
-  # DynamoDB table to store item: {id: &lt;ID&gt;, name: &lt;NAME&gt;}
-  SampleTable:
-    Type: AWS::Serverless::SimpleTable
-    Properties:
-      TableName: StorefrontSAMBookCatalog
-      PrimaryKey:
-        Name: Id
-        Type: String
-      ProvisionedThroughput:
-        ReadCapacityUnits: 2
-        WriteCapacityUnits: 2
         
   ProductTable:
     Type: AWS::Serverless::SimpleTable
@@ -61,10 +46,26 @@ Resources:
         Name: Id
         Type: Number
       ProvisionedThroughput:
-        ReadCapacityUnits: 2
-        WriteCapacityUnits: 2
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+  OrderTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: StorefrontSAMOrders
+      PrimaryKey:
+        Name: Id
+        Type: Number
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
 
 Outputs:
   WebEndpoint:
     Description: "API Gateway endpoint URL"
     Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/"
+  ProductTableRef:
+    Description: "Table of products"
+    Value: !GetAtt ProductTable.Arn
+  OrderTableRef:
+    Description: "Table of orders"
+    Value: !GetAtt OrderTable.Arn

@@ -17,14 +17,10 @@ Resources:
       Runtime: dotnet8
       MemorySize: 256
       Role: arn:aws:iam::730335663858:role/LabRole
-      Environment:
-        Variables:
-          SAMPLE_TABLE:
-            Ref: SampleTable
       Policies:
       - DynamoDBCrudPolicy:
           TableName:
-            Ref: SampleTable
+            Ref: OrderTable
       - DynamoDBCrudPolicy:
           TableName:
             Ref: ProductTable
@@ -43,16 +39,6 @@ Resources:
             Method: ANY
     Metadata:
       SamResourceId: NetCodeWebAPIServerless
-  SampleTable:
-    Type: AWS::Serverless::SimpleTable
-    Properties:
-      TableName: StorefrontSAMBookCatalog
-      PrimaryKey:
-        Name: Id
-        Type: String
-      ProvisionedThroughput:
-        ReadCapacityUnits: 2
-        WriteCapacityUnits: 2
   ProductTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
@@ -61,10 +47,32 @@ Resources:
         Name: Id
         Type: Number
       ProvisionedThroughput:
-        ReadCapacityUnits: 2
-        WriteCapacityUnits: 2
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+  OrderTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: StorefrontSAMOrders
+      PrimaryKey:
+        Name: Id
+        Type: Number
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
 Outputs:
   WebEndpoint:
     Description: API Gateway endpoint URL
     Value:
       Fn::Sub: https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/
+  ProductTableRef:
+    Description: Table of products
+    Value:
+      Fn::GetAtt:
+      - ProductTable
+      - Arn
+  OrderTableRef:
+    Description: Table of orders
+    Value:
+      Fn::GetAtt:
+      - OrderTable
+      - Arn
