@@ -49,5 +49,21 @@ namespace ServerlessAPI.Repositories
 
             return result;
         }
+
+        //implement UpdateOrderItemsAsync when the order items are updated
+        public async Task UpdateOrderItemsAsync(IList<OrderItem> orderItems)
+        {
+            try
+            {
+                foreach (var orderItem in orderItems)
+                {
+                    await context.SaveAsync(orderItem);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "fail to update order items");
+            }
+        }
     }
 }

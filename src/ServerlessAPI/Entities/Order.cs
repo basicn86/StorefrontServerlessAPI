@@ -20,6 +20,7 @@ public class Order
     [DynamoDBProperty]
     public string Date { get; set; } = string.Empty;
 
+    [DynamoDBIgnore]
     //Order Items, not in this table
     public IList<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 }

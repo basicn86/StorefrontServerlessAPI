@@ -51,5 +51,19 @@ namespace ServerlessAPI.Repositories
 
             return result;
         }
+
+        //Update order
+        public async Task UpdateOrderAsync(Order order)
+        {
+            try
+            {
+                await context.SaveAsync(order);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "fail to update order");
+                throw;
+            }
+        }
     }
 }

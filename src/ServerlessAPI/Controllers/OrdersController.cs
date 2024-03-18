@@ -36,5 +36,48 @@ namespace ServerlessAPI.Controllers
 
             return Ok(orders);
         }
+
+        //Update order
+        [HttpPut]
+        public async Task<ActionResult<Order>> Put([FromBody] Order order)
+        {
+            //Verify that there at least one item in the order with a quantity greater than 0
+            if (order.OrderItems == null || order.OrderItems.Count == 0 || order.OrderItems.All(x => x.Quantity <= 0))
+            {
+                return BadRequest("Order must contain at least one item with a quantity greater than 0");
+            }
+
+            try
+            {
+                await orderRepository.UpdateOrderAsync(order);
+                //very that the order items are assigned to the order
+                foreach (var orderItem in order.OrderItems) orderItem.OrderId = order.Id;
+                await orderItemRepository.UpdateOrderItemsAsync(order.OrderItems);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "fail to update order");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            return Ok(order);
+        }
+
+        //delete order
+        [HttpDelete]
+        public async Task<ActionResult> Delete([FromQuery] int id)
+        {
+            try
+            {
+                await orderRepository.DeleteOrderAsync(id);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "fail to delete order");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            return Ok();
+        }
     }
 }
