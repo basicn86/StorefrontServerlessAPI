@@ -4,5 +4,7 @@
     {
         Task<IList<Entities.OrderItem>> GetOrderItemsAsync(int id);
         Task UpdateOrderItemsAsync(IList<Entities.OrderItem> orderItems);
+
+        Task DeleteOrderItemsAsync(int id);
     }
 }

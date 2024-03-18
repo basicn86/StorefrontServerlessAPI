@@ -65,5 +65,34 @@ namespace ServerlessAPI.Repositories
                 logger.LogError(ex, "fail to update order items");
             }
         }
+
+        //implement DeleteOrderItemsAsync when the order is deleted
+        public async Task DeleteOrderItemsAsync(int id)
+        {
+            try
+            {
+                var filter = new ScanFilter();
+                filter.AddCondition("OrderId", ScanOperator.Equal, id);
+                var scanConfig = new ScanOperationConfig()
+                {
+                    Filter = filter
+                };
+                var queryResult = context.FromScanAsync<OrderItem>(scanConfig);
+
+                do
+                {
+                    var orderItems = await queryResult.GetNextSetAsync();
+                    foreach (var orderItem in orderItems)
+                    {
+                        await context.DeleteAsync<OrderItem>(orderItem.Id);
+                    }
+                }
+                while (!queryResult.IsDone);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "fail to delete order items");
+            }
+        }
     }
 }

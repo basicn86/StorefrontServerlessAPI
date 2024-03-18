@@ -6,5 +6,7 @@
 
         //Update order
         Task UpdateOrderAsync(Entities.Order order);
+
+        Task DeleteOrderAsync(int id);
     }
 }

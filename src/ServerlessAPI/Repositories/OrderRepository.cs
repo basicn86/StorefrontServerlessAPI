@@ -52,6 +52,23 @@ namespace ServerlessAPI.Repositories
             return result;
         }
 
+        //Add new order
+        public async Task AddOrderAsync(Order order)
+        {
+            try
+            {
+                //make sure the order will receive a new id
+                order.Id = 0;
+
+                await context.SaveAsync(order);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "fail to create order");
+                throw;
+            }
+        }
+
         //Update order
         public async Task UpdateOrderAsync(Order order)
         {
@@ -62,6 +79,20 @@ namespace ServerlessAPI.Repositories
             catch (Exception ex)
             {
                 logger.LogError(ex, "fail to update order");
+                throw;
+            }
+        }
+
+        //Delete order
+        public async Task DeleteOrderAsync(int id)
+        {
+            try
+            {
+                await context.DeleteAsync<Order>(id);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "fail to delete order");
                 throw;
             }
         }
