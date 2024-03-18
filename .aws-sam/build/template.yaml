@@ -24,6 +24,9 @@ Resources:
       - DynamoDBCrudPolicy:
           TableName:
             Ref: ProductTable
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: OrderItemTable
       Events:
         ProxyResource:
           Type: HttpApi
@@ -52,7 +55,17 @@ Resources:
   OrderTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
-      TableName: StorefrontSAMOrders
+      TableName: StorefrontSAMOrder
+      PrimaryKey:
+        Name: Id
+        Type: Number
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+  OrderItemTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: StorefrontSAMOrderItem
       PrimaryKey:
         Name: Id
         Type: Number

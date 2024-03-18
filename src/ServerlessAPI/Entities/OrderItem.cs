@@ -6,8 +6,8 @@ namespace ServerlessAPI.Entities;
 /// Map the Book Class to DynamoDb Table
 /// To learn more visit https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DeclarativeTagsList.html
 /// </summary>
-[DynamoDBTable("StorefrontSAMOrder")]
-public class Order
+[DynamoDBTable("StorefrontSAMOrderItem")]
+public class OrderItem
 {
     ///<summary>
     /// Map c# types to DynamoDb Columns 
@@ -15,11 +15,15 @@ public class Order
     /// <summary>
     [DynamoDBHashKey] //Partition key
     public int Id { get; set; } = 0;
+
+    //Foreign key to Order
+    [DynamoDBProperty]
+    public int OrderId { get; set; } = 0;
+
+    [DynamoDBProperty]
+    public string Name { get; set; } = string.Empty;
     [DynamoDBProperty]
     public decimal Price { get; set; } = 0;
     [DynamoDBProperty]
-    public string Date { get; set; } = string.Empty;
-
-    //Order Items, not in this table
-    public IList<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    public int Quantity { get; set; } = 0;
 }
