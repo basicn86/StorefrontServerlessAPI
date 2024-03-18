@@ -14,10 +14,10 @@ public class Product
     /// to learn more visit https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/MidLevelAPILimitations.SupportedTypes.html
     /// <summary>
     [DynamoDBHashKey] //Partition key
-    public string Id { get; set; } = string.Empty;
+    public int Id { get; set; } = 0;
 
     [DynamoDBProperty]
     public string Name { get; set; } = string.Empty;
     [DynamoDBProperty]
-    public decimal PriceCents { get; set; } = 0;
+    public decimal Price { get; set; } = 0;
 }

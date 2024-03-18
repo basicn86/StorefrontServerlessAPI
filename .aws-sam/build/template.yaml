@@ -59,7 +59,7 @@ Resources:
       TableName: StorefrontSAMProductCatalog
       PrimaryKey:
         Name: Id
-        Type: String
+        Type: Number
       ProvisionedThroughput:
         ReadCapacityUnits: 2
         WriteCapacityUnits: 2
