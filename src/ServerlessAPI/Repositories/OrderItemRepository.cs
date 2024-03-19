@@ -62,7 +62,7 @@ namespace ServerlessAPI.Repositories
         }
 
         //implement DeleteOrderItemsAsync when the order is deleted
-        public async Task DeleteOrderItemsAsync(int id)
+        public async Task DeleteOrderItemsAsync(Guid id)
         {
             try
             {

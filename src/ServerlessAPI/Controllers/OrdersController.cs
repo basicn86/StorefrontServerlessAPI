@@ -97,7 +97,7 @@ namespace ServerlessAPI.Controllers
 
         //delete order
         [HttpDelete]
-        public async Task<ActionResult> Delete([FromQuery] int id)
+        public async Task<ActionResult> Delete([FromQuery] Guid id)
         {
             try
             {

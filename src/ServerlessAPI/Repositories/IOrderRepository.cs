@@ -7,7 +7,7 @@
         //Update order
         Task UpdateOrderAsync(Entities.Order order);
 
-        Task DeleteOrderAsync(int id);
+        Task DeleteOrderAsync(Guid id);
 
         Task AddOrderAsync(Entities.Order order);
     }

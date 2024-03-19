@@ -91,7 +91,7 @@ namespace ServerlessAPI.Repositories
         }
 
         //Delete order
-        public async Task DeleteOrderAsync(int id)
+        public async Task DeleteOrderAsync(Guid id)
         {
             try
             {
