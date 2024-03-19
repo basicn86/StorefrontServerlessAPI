@@ -28,15 +28,22 @@ namespace ServerlessAPI.Controllers
 
         //POST method, clears the table and adds new products
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] List<Entities.Product> products)
+        public async Task<ActionResult> Post()
         {
             try
             {
                 //clear the table
-                await productRepository.ClearProductsAsync();
+                await productRepository.DeleteAllProductsAsync();
 
-                //add new products
-                await productRepository.AddProductsAsync(products);
+                //create three new products
+                var newProducts = new List<Entities.Product>
+                {
+                    new Entities.Product { Id = Guid.NewGuid(), Name = "Peanuts", Price = 10.00m },
+                    new Entities.Product { Id = Guid.NewGuid(), Name = "Pineapple", Price = 20.00m },
+                    new Entities.Product { Id = Guid.NewGuid(), Name = "Apples", Price = 30.00m }
+                };
+
+                await productRepository.AddProductsAsync(newProducts);
 
                 return Ok();
             }

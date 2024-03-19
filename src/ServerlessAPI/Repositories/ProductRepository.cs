@@ -49,5 +49,40 @@ namespace ServerlessAPI.Repositories
 
             return result;
         }
+
+        public async Task DeleteAllProductsAsync()
+        {
+            try
+            {
+                var conditions = new List<ScanCondition>();
+
+                var search = context.ScanAsync<Product>(conditions);
+                var items = await search.GetNextSetAsync();
+
+                foreach (var item in items)
+                {
+                    await context.DeleteAsync<Product>(item.Id);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "fail to clear products from DynamoDb Table");
+            }
+        }
+
+        public async Task AddProductsAsync(IList<Entities.Product> products)
+        {
+            try
+            {
+                foreach (var product in products)
+                {
+                    await context.SaveAsync(product);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "fail to add products to DynamoDb Table");
+            }
+        }
     }
 }
