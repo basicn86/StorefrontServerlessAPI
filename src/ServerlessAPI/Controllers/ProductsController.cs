@@ -38,9 +38,9 @@ namespace ServerlessAPI.Controllers
                 //create three new products
                 var newProducts = new List<Entities.Product>
                 {
-                    new Entities.Product { Id = Guid.NewGuid(), Name = "Peanuts", Price = 10.00m },
-                    new Entities.Product { Id = Guid.NewGuid(), Name = "Pineapple", Price = 20.00m },
-                    new Entities.Product { Id = Guid.NewGuid(), Name = "Apples", Price = 30.00m }
+                    new Entities.Product { Id = Guid.NewGuid(), Name = "Peanuts", Price = 10.99m },
+                    new Entities.Product { Id = Guid.NewGuid(), Name = "Pineapple", Price = 20.99m },
+                    new Entities.Product { Id = Guid.NewGuid(), Name = "Apples", Price = 30.99m }
                 };
 
                 await productRepository.AddProductsAsync(newProducts);
