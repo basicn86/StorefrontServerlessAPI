@@ -16,17 +16,12 @@ namespace ServerlessAPI.Repositories
         }
 
         //Get orderitems by matching ID
-        public async Task<IList<OrderItem>> GetOrderItemsAsync(int id)
+        public async Task<IList<OrderItem>> GetOrderItemsAsync(Guid id)
         {
             var result = new List<OrderItem>();
 
             try
             {
-                if (id <= 0)
-                {
-                    return result;
-                }
-
                 var filter = new ScanFilter();
                 filter.AddCondition("OrderId", ScanOperator.Equal, id);
                 var scanConfig = new ScanOperationConfig()
@@ -92,6 +87,22 @@ namespace ServerlessAPI.Repositories
             catch (Exception ex)
             {
                 logger.LogError(ex, "fail to delete order items");
+            }
+        }
+
+        //implement AddOrderItemsAsync when the order is added
+        public async Task AddOrderItemsAsync(IList<OrderItem> orderItem)
+        {
+            try
+            {
+                foreach (var item in orderItem)
+                {
+                    await context.SaveAsync(item);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "fail to add order items");
             }
         }
     }

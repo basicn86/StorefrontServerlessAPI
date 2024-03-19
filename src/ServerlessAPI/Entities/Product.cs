@@ -14,7 +14,7 @@ public class Product
     /// to learn more visit https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/MidLevelAPILimitations.SupportedTypes.html
     /// <summary>
     [DynamoDBHashKey] //Partition key
-    public int Id { get; set; } = 0;
+    public Guid Id { get; set; } = Guid.Empty;
 
     [DynamoDBProperty]
     public string Name { get; set; } = string.Empty;

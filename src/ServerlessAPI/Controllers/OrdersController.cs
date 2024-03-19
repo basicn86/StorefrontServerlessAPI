@@ -49,10 +49,16 @@ namespace ServerlessAPI.Controllers
 
             try
             {
-                await orderRepository.UpdateOrderAsync(order);
+                await orderRepository.AddOrderAsync(order);
                 //very that the order items are assigned to the order
                 foreach (var orderItem in order.OrderItems) orderItem.OrderId = order.Id;
-                await orderItemRepository.UpdateOrderItemsAsync(order.OrderItems);
+                
+                //log the order items
+                foreach (var orderItem in order.OrderItems)
+                {
+                    logger.LogInformation($"OrderItem: {orderItem.Id} - {orderItem.OrderId} - {orderItem.Quantity}");
+                }
+                await orderItemRepository.AddOrderItemsAsync(order.OrderItems);
             }
             catch (Exception ex)
             {

@@ -48,7 +48,7 @@ Resources:
       TableName: StorefrontSAMProductCatalog
       PrimaryKey:
         Name: Id
-        Type: Number
+        Type: String
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
@@ -58,7 +58,7 @@ Resources:
       TableName: StorefrontSAMOrder
       PrimaryKey:
         Name: Id
-        Type: Number
+        Type: String
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
@@ -68,7 +68,7 @@ Resources:
       TableName: StorefrontSAMOrderItem
       PrimaryKey:
         Name: Id
-        Type: Number
+        Type: String
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1

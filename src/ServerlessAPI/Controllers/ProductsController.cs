@@ -25,5 +25,26 @@ namespace ServerlessAPI.Controllers
         {
             return Ok(await productRepository.GetProductsAsync(limit));
         }
+
+        //POST method, clears the table and adds new products
+        [HttpPost]
+        public async Task<ActionResult> Post([FromBody] List<Entities.Product> products)
+        {
+            try
+            {
+                //clear the table
+                await productRepository.ClearProductsAsync();
+
+                //add new products
+                await productRepository.AddProductsAsync(products);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "fail to add products to DynamoDb Table");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

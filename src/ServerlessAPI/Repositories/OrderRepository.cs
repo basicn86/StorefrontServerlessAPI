@@ -58,7 +58,14 @@ namespace ServerlessAPI.Repositories
             try
             {
                 //make sure the order will receive a new id
-                order.Id = 0;
+                order.Id = Guid.NewGuid();
+
+                //give all order items the order id, and a new GUID for the order item id
+                foreach (var orderItem in order.OrderItems)
+                {
+                    orderItem.Id = Guid.NewGuid();
+                    orderItem.OrderId = order.Id;
+                }
 
                 await context.SaveAsync(order);
             }

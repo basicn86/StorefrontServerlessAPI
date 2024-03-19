@@ -8,5 +8,7 @@
         Task UpdateOrderAsync(Entities.Order order);
 
         Task DeleteOrderAsync(int id);
+
+        Task AddOrderAsync(Entities.Order order);
     }
 }
